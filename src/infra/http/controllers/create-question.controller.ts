@@ -1,4 +1,4 @@
-import { Controller, HttpCode, Post, UseGuards, Body, HttpException } from '@nestjs/common'
+import { Controller, HttpCode, Post, UseGuards, Body, BadRequestException } from '@nestjs/common'
 import { CurrentUser } from '@/infra/auth/current-user.docorator'
 import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard'
 import { UserPayload } from '@/infra/auth/jwt.startegy'
@@ -26,11 +26,12 @@ export class CreateQuestionController {
   ) {
     const { title, content } = body
     const { sub } = user
-    await this.createQuestion.execute({
+    const result = await this.createQuestion.execute({
       authorId: sub,
       title,
       content,
       attachmentsIds: [],
     })
+    if (result.isLeft()) throw new BadRequestException()
   }
 }
