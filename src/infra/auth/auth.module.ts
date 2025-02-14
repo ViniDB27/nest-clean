@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { JwtModule } from '@nestjs/jwt'
 import { PassportModule } from '@nestjs/passport'
-import { AuthenticateController } from '@/infra/http/controllers/authenticate.controller'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { JwtStrategy } from './jwt.startegy'
 import { Env } from '../env'
@@ -24,7 +23,6 @@ import { Env } from '../env'
       },
     }),
   ],
-  controllers: [AuthenticateController],
   providers: [JwtStrategy, PrismaService],
 })
 export class AuthModule {}

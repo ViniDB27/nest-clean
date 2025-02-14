@@ -19,13 +19,18 @@ import { FetchCommentQuestionUseCase } from '@/domain/forum/application/usecases
 import { FetchQuestionAnswersUseCase } from '@/domain/forum/application/usecases/fetch-questions-answers'
 import { FetchRecentQuestionsUseCase } from '@/domain/forum/application/usecases/fetch-recent-questions.usecase'
 import { GetQuestionBySlugUseCase } from '@/domain/forum/application/usecases/get-question-by-slug.usecase'
+import { AuthenticateStudentUseCase } from '@/domain/forum/application/usecases/authenticate-student.usecase'
+import { RegisterStudentUseCase } from '@/domain/forum/application/usecases/register-student.usecase'
+import { CryptographModule } from '../cryptography/cryptography.module'
+import { AuthenticateController } from './controllers/authenticate.controller'
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, CryptographModule],
   controllers: [
     CreateAccountController,
     CreateQuestionController,
     FetchRecentQuestionsController,
+    AuthenticateController,
   ],
   providers: [
     AnswerQuestionUseCase,
@@ -44,6 +49,8 @@ import { GetQuestionBySlugUseCase } from '@/domain/forum/application/usecases/ge
     FetchQuestionAnswersUseCase,
     FetchRecentQuestionsUseCase,
     GetQuestionBySlugUseCase,
-  ]
+    AuthenticateStudentUseCase,
+    RegisterStudentUseCase,
+  ],
 })
 export class HttpModule {}
