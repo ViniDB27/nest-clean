@@ -12,6 +12,6 @@ import { HttpModule } from './http/http.module'
     }),
     AuthModule,
     HttpModule,
-  ]
+  ],
 })
 export class AppModule {}
