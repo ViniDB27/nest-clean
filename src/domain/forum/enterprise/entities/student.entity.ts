@@ -1,8 +1,10 @@
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityId } from '@/core/vos/unique-entity-id.vo'
 
-interface StudentProps {
+export interface StudentProps {
   name: string
+  email: string
+  password: string
 }
 
 export class Student extends Entity<StudentProps> {
@@ -10,7 +12,16 @@ export class Student extends Entity<StudentProps> {
     return this.props.name
   }
 
-  static create(props: StudentProps, id?: UniqueEntityId): Student {
-    return new Student(props, id)
+  get email() {
+    return this.props.email
+  }
+
+  get password() {
+    return this.props.password
+  }
+
+  static create(props: StudentProps, id?: UniqueEntityId) {
+    const student = new Student(props, id)
+    return student
   }
 }
