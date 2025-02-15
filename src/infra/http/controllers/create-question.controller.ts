@@ -1,7 +1,12 @@
-import { Controller, HttpCode, Post, UseGuards, Body, BadRequestException } from '@nestjs/common'
+import {
+  Controller,
+  HttpCode,
+  Post,
+  Body,
+  BadRequestException,
+} from '@nestjs/common'
 import { CurrentUser } from '@/infra/auth/current-user.docorator'
-import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard'
-import { UserPayload } from '@/infra/auth/jwt.startegy'
+import { UserPayload } from '@/infra/auth/jwt.strategy'
 import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation.pipe'
 import { CreateQuestionUseCase } from '@/domain/forum/application/usecases/create-question.usecsae'
@@ -20,7 +25,8 @@ export class CreateQuestionController {
   @Post()
   @HttpCode(201)
   async handler(
-    @Body(new ZodValidationPipe(createQuestionBodySchema)) body: CreateQuestionBodySchema,
+    @Body(new ZodValidationPipe(createQuestionBodySchema))
+    body: CreateQuestionBodySchema,
     @CurrentUser() user: UserPayload,
   ) {
     const { title, content } = body

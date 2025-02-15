@@ -6,39 +6,51 @@ import {
   UnauthorizedException,
   UsePipes,
 } from '@nestjs/common'
-import { ZodValidationPipe } from '../pipes/zod-validation.pipe'
-import { AuthenticateStudentUseCase } from '@/domain/forum/application/usecases/authenticate-student.usecase'
 import { z } from 'zod'
-import { WrongCredentialsError } from '@/domain/forum/application/usecases/errors/wrong-credentials.error'
 import { Public } from '@/infra/auth/public'
+import { AuthenticateStudentUseCase } from '@/domain/forum/application/usecases/authenticate-student.usecase'
+import { WrongCredentialsError } from '@/domain/forum/application/usecases/errors/wrong-credentials.error'
+import { ZodValidationPipe } from '../pipes/zod-validation.pipe'
 
 const authenticateBodySchema = z.object({
   email: z.string().email(),
-  password: z.string().min(8).max(255),
+  password: z.string(),
 })
 
 type AuthenticateBodySchema = z.infer<typeof authenticateBodySchema>
 
-@Controller('sessions')
+@Controller('/sessions')
 @Public()
 export class AuthenticateController {
-  constructor(private readonly authenticate: AuthenticateStudentUseCase) {}
+  constructor(
+    private readonly authenticateStudent: AuthenticateStudentUseCase,
+  ) {}
 
   @Post()
   @UsePipes(new ZodValidationPipe(authenticateBodySchema))
-  async handler(@Body() body: AuthenticateBodySchema) {
+  async handle(@Body() body: AuthenticateBodySchema) {
     const { email, password } = body
-    const result = await this.authenticate.execute({ email, password })
+
+    const result = await this.authenticateStudent.execute({
+      email,
+      password,
+    })
+
     if (result.isLeft()) {
       const error = result.value
+
       switch (error.constructor) {
         case WrongCredentialsError:
           throw new UnauthorizedException(error.message)
         default:
-          throw new BadRequestException()
+          throw new BadRequestException(error.message)
       }
     }
+
     const { accessToken } = result.value
-    return { accessToken }
+
+    return {
+      access_token: accessToken,
+    }
   }
 }

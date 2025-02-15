@@ -1,11 +1,12 @@
-import { HasherCompare } from '@/domain/forum/cryptography/hasher-compare'
-import { HasherGenerator } from '@/domain/forum/cryptography/hasher-generator'
-import { compare, hash } from 'bcryptjs'
+import { HashComparer } from '@/domain/forum/cryptography/hash-comparer'
+import { HashGenerator } from '@/domain/forum/cryptography/hash-generator'
+import { hash, compare } from 'bcryptjs'
 
-export class BcryptHasher implements HasherGenerator, HasherCompare {
+
+export class BcryptHasher implements HashGenerator, HashComparer {
   private HASH_SALT_LENGTH = 8
 
-  hasing(plain: string): Promise<string> {
+  hash(plain: string): Promise<string> {
     return hash(plain, this.HASH_SALT_LENGTH)
   }
 

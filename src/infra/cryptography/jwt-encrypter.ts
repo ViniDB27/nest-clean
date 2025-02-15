@@ -10,3 +10,4 @@ export class JwtEncrypter implements Encrypter {
     return this.jwtService.signAsync(payload)
   }
 }
+

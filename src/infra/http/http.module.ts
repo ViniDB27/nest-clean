@@ -1,56 +1,29 @@
 import { Module } from '@nestjs/common'
+
+import { AuthenticateController } from './controllers/authenticate.controller'
 import { CreateAccountController } from './controllers/create-account.controller'
 import { CreateQuestionController } from './controllers/create-question.controller'
 import { FetchRecentQuestionsController } from './controllers/fetch-recent-questions.controller'
 import { DatabaseModule } from '../database/database.module'
-import { AnswerQuestionUseCase } from '@/domain/forum/application/usecases/answer-question.usecase'
-import { ChooseQuestionBestAnswerUseCase } from '@/domain/forum/application/usecases/choose-question-best-answer.usecase'
-import { CommentAnswerUseCase } from '@/domain/forum/application/usecases/comment-on-answer.usecase'
-import { CommentQuestionUseCase } from '@/domain/forum/application/usecases/comment-on-question.usecase'
+import { CryptographyModule } from '../cryptography/cryptography.module'
 import { CreateQuestionUseCase } from '@/domain/forum/application/usecases/create-question.usecsae'
-import { DeleteAnswerUseCase } from '@/domain/forum/application/usecases/delete-answer.usecase'
-import { DeleteCommentAnswerUseCase } from '@/domain/forum/application/usecases/delete-comment-on-answer.usecase'
-import { DeleteCommentQuestionUseCase } from '@/domain/forum/application/usecases/delete-comment-on-question.usecase'
-import { DeleteQuestionUseCase } from '@/domain/forum/application/usecases/delete-question.usecsae'
-import { EditAnswerUseCase } from '@/domain/forum/application/usecases/edit-answer.usecase'
-import { EditQuestionUseCase } from '@/domain/forum/application/usecases/edit-question.usecase'
-import { FetchCommentAnswerUseCase } from '@/domain/forum/application/usecases/fetch-comment-on-answer.usecase'
-import { FetchCommentQuestionUseCase } from '@/domain/forum/application/usecases/fetch-comment-on-question.usecase'
-import { FetchQuestionAnswersUseCase } from '@/domain/forum/application/usecases/fetch-questions-answers'
 import { FetchRecentQuestionsUseCase } from '@/domain/forum/application/usecases/fetch-recent-questions.usecase'
-import { GetQuestionBySlugUseCase } from '@/domain/forum/application/usecases/get-question-by-slug.usecase'
-import { AuthenticateStudentUseCase } from '@/domain/forum/application/usecases/authenticate-student.usecase'
 import { RegisterStudentUseCase } from '@/domain/forum/application/usecases/register-student.usecase'
-import { CryptographModule } from '../cryptography/cryptography.module'
-import { AuthenticateController } from './controllers/authenticate.controller'
+import { AuthenticateStudentUseCase } from '@/domain/forum/application/usecases/authenticate-student.usecase'
 
 @Module({
-  imports: [DatabaseModule, CryptographModule],
+  imports: [DatabaseModule, CryptographyModule],
   controllers: [
     CreateAccountController,
+    AuthenticateController,
     CreateQuestionController,
     FetchRecentQuestionsController,
-    AuthenticateController,
   ],
   providers: [
-    AnswerQuestionUseCase,
-    ChooseQuestionBestAnswerUseCase,
-    CommentAnswerUseCase,
-    CommentQuestionUseCase,
     CreateQuestionUseCase,
-    DeleteAnswerUseCase,
-    DeleteCommentAnswerUseCase,
-    DeleteCommentQuestionUseCase,
-    DeleteQuestionUseCase,
-    EditAnswerUseCase,
-    EditQuestionUseCase,
-    FetchCommentAnswerUseCase,
-    FetchCommentQuestionUseCase,
-    FetchQuestionAnswersUseCase,
     FetchRecentQuestionsUseCase,
-    GetQuestionBySlugUseCase,
-    AuthenticateStudentUseCase,
     RegisterStudentUseCase,
+    AuthenticateStudentUseCase,
   ],
 })
 export class HttpModule {}
